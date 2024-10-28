@@ -1,5 +1,3 @@
-
-
 name: Deploy MultiDocker
 
 on:
@@ -13,15 +11,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-      - run: docker build -t abhiComplex/react-test -f ./client/Dockerfile.dev ./client
-      - run: docker run -e CI=true abhiComplex/react-test npm test
+      
+      # Build and test the client image
+      - run: docker build -t abhinagp/complex-react-test -f ./client/Dockerfile.dev ./client
+      - run: docker run -e CI=true abhinagp/complex-react-test npm test
 
-      - run: docker build -t abhiComplex/multi-client ./client
-      - run: docker build -t abhiComplex/multi-nginx ./nginx
-      - run: docker build -t abhiComplex/multi-server ./server
-      - run: docker build -t abhiComplex/multi-worker ./worker
+      # Build the production images
+      - run: docker build -t abhinagp/complex-client ./client
+      - run: docker build -t abhinagp/complex-nginx ./nginx
+      - run: docker build -t abhinagp/complex-server ./server
+      - run: docker build -t abhinagp/complex-worker ./worker
 
-      - run: docker push abhiComplex/multi-client
-      - run: docker push abhiComplex/multi-nginx
-      - run: docker push abhiComplex/multi-server
-      - run: docker push abhiComplex/multi-worker
+      # Push images to Docker Hub
+      - run: docker push abhinagp/complex-client
+      - run: docker push abhinagp/complex-nginx
+      - run: docker push abhinagp/complex-server
+      - run: docker push abhinagp/complex-worker
