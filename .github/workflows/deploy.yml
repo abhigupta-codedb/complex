@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: docker login -u ${{ abhinagp }} -p ${{ Trunch@123 }}
+      - run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
       - run: docker build -t abhiComplex/react-test -f ./client/Dockerfile.dev ./client
       - run: docker run -e CI=true abhiComplex/react-test npm test
 
