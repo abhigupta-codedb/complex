@@ -1,0 +1,27 @@
+
+
+name: Deploy MultiDocker
+
+on:
+  push:
+    branches: [ "master" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker login -u ${{ abhinagp }} -p ${{ Trunch@123 }}
+      - run: docker build -t abhiComplex/react-test -f ./client/Dockerfile.dev ./client
+      - run: docker run -e CI=true abhiComplex/react-test npm test
+
+      - run: docker build -t abhiComplex/multi-client ./client
+      - run: docker build -t abhiComplex/multi-nginx ./nginx
+      - run: docker build -t abhiComplex/multi-server ./server
+      - run: docker build -t abhiComplex/multi-worker ./worker
+
+      - run: docker push abhiComplex/multi-client
+      - run: docker push abhiComplex/multi-nginx
+      - run: docker push abhiComplex/multi-server
+      - run: docker push abhiComplex/multi-worker
