@@ -1,0 +1,36 @@
+{
+    "AWSEBDockerrunVersion":2,
+    "containerDefinitions":[
+        {
+            "name": "client",
+            "image": "abhinagp/complex-client",
+            "hostname": "client",
+            "essential": false
+        },
+        {
+            "name": "server",
+            "image": "abhinagp/complex-server",
+            "hostname": "api",
+            "essential": false
+        },
+        {
+            "name": "worker",
+            "image": "abhinagp/complex-worker",
+            "hostname": "worker",
+            "essential": false
+        },
+        {
+            "name": "nginx",
+            "image": "abhinagp/complex-nginx",
+            "hostname": "worker",
+            "essential": true,
+            "portMapping": [
+                {
+                    "hostPort": 80,
+                    "ContainerPort": 80
+                }
+            ],
+            "links": ["client", "server"]
+        }
+    ]
+}
